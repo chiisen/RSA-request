@@ -22,9 +22,12 @@ function main() {
 
   const results = mysql.rsaKey(dc)
 
-  const decrypt = rsa.encrypt(results[0].PublicKey, x)
+  const encrypt = rsa.encrypt(results[0].PublicKey, x)
 
-  const payload = { dc, x: decrypt }
+  const decrypt = rsa.decrypt(results[0].PrivateKey, encrypt)
+  console.log("RSA 解密:\n" + inspect(decrypt) + "\n")
+
+  const payload = { dc, x: encrypt }
 
   const res = fetch("http://127.0.0.1:8083/apiRequest", {
     method: "post",
